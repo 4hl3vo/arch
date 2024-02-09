@@ -70,6 +70,7 @@
 				 discord firefox spotify-launcher code xorg-server xorg-init libx11 libxinerama 
 				 libxft webkit2gtk mesa feh picom nvidia nvidia-lts libglvnd nvidia-utils opencl-nvidia 
      				 nvidia-settings grub efibootmgr dosfstools os-prober mtools alsa-utils pulseaudio
+	  			 htop less
 		
 		genfstab -U /mnt >> /mnt/etc/fstab
 		
@@ -98,11 +99,11 @@
 		EDIT=vim visudo
 			#%wheel ALL=(ALL) ALL
 
-	echo arch-linux > /etc/hostname
-	vim /etc/hosts
-		127.0.0.1     localhost
-		::1           localhost
-	127.0.1.1     arch-linux.localdomain    localhost
+		echo arch-linux > /etc/hostname
+		vim /etc/hosts
+			127.0.0.1     localhost
+			::1           localhost
+			127.0.1.1     arch-linux.localdomain    localhost
 
 
 
@@ -111,7 +112,6 @@
 
 
 ###	GRUB
-	
 		vim /etc/default/grub
 			#GRUB_DISABLE_OS_PROBER=false
 	
@@ -133,34 +133,41 @@
 
 
 ### 	DESKTOP ENVIRONMENT
+		mkdir suckless
+		cd suckless
+
+		git clone https://git.suckless.org/dwm
+		git clone https://git.suckless.org/st
+		git clone https://git.suckless.org/dmenu
+
+		cd dwm
+		sudo make clean install
 	
-	mkdir suckless
-	cd suckless
-
-	git clone https://git.suckless.org/dwm
-	git clone https://git.suckless.org/st
-	git clone https://git.suckless.org/dmenu
-
-	cd dwm
-	sudo make clean install
+		cd ../st
+		patch -i alpha...
+		sudo make clean install
 	
-	cd ../st
-	patch -i alpha...
-	sudo make clean install
+		cd ../dmenu
+		patch -i dmenu-center..
+		sudo make clean install
+
+		mkdir -p Pictures/wallpapers
+ 		feh --bg-scale ~/Pictures/wallpapers/img.png
+
+  		sudo vim /etc/xdg/picom.conf
 	
-	cd ../dmenu
-	patch -i dmenu-center..
-	sudo make clean install
+ 		vim .xinitrc
+			~/.fehbg &
+			picom &
+			exec dwm
 
-	mkdir -p Pictures/wallpapers
- 	feh --bg-scale ~/Pictures/wallpapers/img.png
+		vim .bash_profile
+			startx
 
-  	sudo vim /etc/xdg/picom.conf
-	
- 	vim .xinitrc
-		~/.fehbg &
-		picom &
-		exec dwm
 
-	vim .bash_profile
-		startx
+
+###	AUDIO
+		alsamixer
+  		alsactl restore
+    		reboot
+      
