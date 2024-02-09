@@ -1,0 +1,1 @@
+base base-devel linux linux-headers linux-lts linux-lts-headers linux-firmware intel-ucode vim git networkmanager dhcpcd wpa_supplicant wireless_tools netctl discord firefox spotify-launcher code xorg-server xorg-init libx11 libxinerama libxft webkit2gtk mesa feh picom
