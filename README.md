@@ -69,13 +69,19 @@
 				 intel-ucode vim git networkmanager dhcpcd wpa_supplicant wireless_tools netctl
 				 discord firefox spotify-launcher code xorg-server xorg-init libx11 libxinerama 
 				 libxft webkit2gtk mesa feh picom nvidia nvidia-lts libglvnd nvidia-utils opencl-nvidia 
-     				 nvidia-settings grub efibootmgr dosfstools os-prober mtools
+     				 nvidia-settings grub efibootmgr dosfstools os-prober mtools alsa-utils pulseaudio
 		
 		genfstab -U /mnt >> /mnt/etc/fstab
 		
 		arch-chroot /mnt
-  	
+
+
+
+
+   ###	TIMEZONE
 		ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+  		localectl set-timezone America/Sao_Paulo
+    		localectl set-keymap --no-convert br-abnt2
 		hwclock --systohc
 		systemctl enable NetworkManager
 	
