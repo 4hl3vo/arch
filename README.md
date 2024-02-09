@@ -41,7 +41,7 @@
 
 
 
-##	CRIAR O SISTEMA DE ARQUIVOS -#-#-
+##	CRIAR O SISTEMA DE ARQUIVOS
 
 		mkfs.fat -F32 /dev/sda1
 		mkswap /dev/sda2
@@ -53,9 +53,9 @@
 		mount /dev/sda3 /mnt
 		
 		mkdir /mnt/home
-		mount /dev/sda4 /mnt/home
+  		mkdir -p /mnt/boot/efi
 		
-		mkdir -p /mnt/boot/efi
+  		mount /dev/sda4 /mnt/home
 		mount /dev/sda1 /mnt/boot/efi
 
 
@@ -73,30 +73,28 @@
 		genfstab -U /mnt >> /mnt/etc/fstab
 		
 		arch-chroot /mnt
+  	
 		ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 		hwclock --systohc
 		systemctl enable NetworkManager
 	
-	vim /etc/locale.gen
-		#pt_BR.UTF-8 UTF-8
-	echo LANG=pt_BR.UTF-8 > /etc/locale.conf
-	echo KEYMAP=br-abnt2 > /etc/vconsole.conf
-	locale-gen
+		vim /etc/locale.gen
+			#en_US.UTF-8
+		echo LANG=en_US.UTF-8 > /etc/locale.conf
+		echo KEYMAP=br-abnt2 > /etc/vconsole.conf
+		locale-gen
 	
-	passwd
-	useradd -m guilherme
-	usermod -aG wheel,storage,power guilherme
-	passwd guilherme
-	
-	EDIT=vim visudo
-		#%wheel ALL=(ALL) ALL
+		passwd
+		useradd -m guilherme
+		usermod -aG wheel,storage,power guilherme
+		passwd guilherme
+		EDIT=vim visudo
+			#%wheel ALL=(ALL) ALL
 
 	echo arch-linux > /etc/hostname
-	
 	vim /etc/hosts
-		
-	127.0.0.1     localhost
-	::1           localhost
+		127.0.0.1     localhost
+		::1           localhost
 	127.0.1.1     arch-linux.localdomain    localhost
 
 
