@@ -68,7 +68,8 @@
 		pacstrap -i /mnt base base-devel linux linux-headers linux-lts linux-lts-headers linux-firmware
 				 intel-ucode vim git networkmanager dhcpcd wpa_supplicant wireless_tools netctl
 				 discord firefox spotify-launcher code xorg-server xorg-init libx11 libxinerama 
-				 libxft webkit2gtk mesa feh picom
+				 libxft webkit2gtk mesa feh picom nvidia nvidia-lts libglvnd nvidia-utils opencl-nvidia 
+     				 nvidia-settings grub efibootmgr dosfstools os-prober mtools
 		
 		genfstab -U /mnt >> /mnt/etc/fstab
 		
@@ -104,14 +105,16 @@
 
 
 ##	GRUB
-
-	pacman -S grub efibootmgr dosfstools os-prober mtools
 	
 	vim /etc/default/grub
 		#GRUB_DISABLE_OS_PROBER=false
 	
 	grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
 	grub-mkconfig -o /boot/grub/grub.cfg
+
+ 	mkinitcpio -p
+  	systemctl enable NetworkManager.service
+	nvidia-xconfig
 	exit
 	umount -a
 	reboot
@@ -119,77 +122,6 @@
 
 
 
-
-
-
-
-##	NVIDIA
-
-	sudo pacman -S nvidia nvidia-lts libglvnd nvidia-utils opencl-nvidia lib32-libglvnd lib32-nvidia-utils lib32-opencl-nvidia nvidia-settings
-	
-	mkdir -p /etc/X11/xorg.conf.d
- 
-	vim /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf
-		Section "OutputClass"
-    			Identifier "intel"
-    			MatchDriver "i915"
-    			Driver "modesetting"
-		EndSection
-
-		Section "OutputClass"
-    			Identifier "nvidia"
-    			MatchDriver "nvidia-drm"
-    			Driver "nvidia"
-    			Option "AllowEmptyInitialConfiguration"
-    			Option "PrimaryGPU" "yes"
-    			ModulePath "/usr/lib/nvidia/xorg"
-    			ModulePath "/usr/lib/xorg/modules"
-		EndSection
-	
-	mkdir -p /usr/share/gdm/greeter/autostart
-	mkdir -p /etc/xdg/autostart
-
-	vim /usr/share/gdm/greeter/autostart/optimus.desktop
-		[Desktop Entry]
-		Type=Application
-		Name=Optimus
-		Exec=sh -c "xrandr --setprovideroutputsource modesetting NVIDIA-0; xrandr --auto"
-		NoDisplay=true
-		X-GNOME-Autostart-Phase=DisplayServer
-
-	vim /etc/xdg/autostart/optimus.desktop
-		[Desktop Entry]
-		Type=Application
-		Name=Optimus
-		Exec=sh -c "xrandr --setprovideroutputsource modesetting NVIDIA-0; xrandr --auto"
-		NoDisplay=true
-		X-GNOME-Autostart-Phase=DisplayServer
-	
-	mkdir -p /etc/modprobe.d
-	
-	vim /etc/modprobe.d/nvidia-drm-nomodeset.conf
-		options nvidia-drm modeset=1
-	
-	vim /etc/pacman.d/hooks/nvidia.hook
-		[Trigger]
-		Operation=Install
-		Operation=Upgrade
-		Operation=Remove
-		Type=Package
-		Target=nvidia
-		Target=linux
-		# Change the linux part above if a different kernel is used
-
-		[Action]
-		Description=Update NVIDIA module in initcpio
-		Depends=mkinitcpio
-		When=PostTransaction
-		NeedsTargets
-		Exec=/bin/sh -c 'while read -r trg; do case $trg in linux*) exit 0; esac; done; /usr/bin/mkinitcpio -P'
-
-	sudo mkinitcpio -P
-	sudo nvidia-xconfig
-	
 	systemctl enable NetworkManager.service
 	exit
 	umount -lR /mnt
@@ -223,10 +155,6 @@
 		~/.fehbg &
 		picom &
 		exec dwm
-	
-	cd suckless/st
-	sudo vim config.h
-		ESC /SHCMD >> "/bin/sh" >> "/usr/local/bin/st"
 
 	vim .bash_profile
 		startx
