@@ -1,14 +1,14 @@
-=================   arch linux installation ====================
+#	ARCH INSTALLATION
 
 
-##	LAYOUT TECLADO 
+###	LAYOUT TECLADO 
 		loadkeys br-abnt2
 
 
 
 
 
-##	INTERNET
+###	INTERNET
 		ping -c 3 google.com
 
 		//	iwctl
@@ -21,7 +21,7 @@
 
 
 
-##	NTP
+###	NTP
 
 		timedatectl set-ntp true			
 		timedatectl status
@@ -31,7 +31,7 @@
 
 
 
-##	PARTICIONAR OS DISCOS 
+###	PARTICIONAR OS DISCOS 
 		lsblk
 		
 		cgdisk /dev/sdX 
@@ -41,7 +41,7 @@
 
 
 
-##	CRIAR O SISTEMA DE ARQUIVOS
+###	CRIAR O SISTEMA DE ARQUIVOS
 
 		mkfs.fat -F32 /dev/sda1
 		mkswap /dev/sda2
@@ -63,7 +63,7 @@
 
 
 
-##	PACKAGES
+###	PACKAGES
 
 		pacstrap -i /mnt base base-devel linux linux-headers linux-lts linux-lts-headers linux-firmware
 				 intel-ucode vim git networkmanager dhcpcd wpa_supplicant wireless_tools netctl
@@ -104,34 +104,29 @@
 
 
 
-##	GRUB
+###	GRUB
 	
-	vim /etc/default/grub
-		#GRUB_DISABLE_OS_PROBER=false
+		vim /etc/default/grub
+			#GRUB_DISABLE_OS_PROBER=false
 	
-	grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
-	grub-mkconfig -o /boot/grub/grub.cfg
+		grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+		grub-mkconfig -o /boot/grub/grub.cfg
 
- 	mkinitcpio -p
-  	systemctl enable NetworkManager.service
-	nvidia-xconfig
-	exit
-	umount -a
-	reboot
-
-
-
-
-	systemctl enable NetworkManager.service
-	exit
-	umount -lR /mnt
-	reboot
-	
+ 		mkinitcpio -p
+	  	systemctl enable NetworkManager.service
+		nvidia-xconfig
+		exit
+		umount -a
+		reboot
 
 
 
 
--#-#- DESKTOP ENVIRONMENT -#-#-
+
+
+
+
+### 	DESKTOP ENVIRONMENT
 	
 	mkdir suckless
 	cd suckless
@@ -151,7 +146,12 @@
 	patch -i dmenu-center..
 	sudo make clean install
 
-	vim .xinitrc
+	mkdir -p Pictures/wallpapers
+ 	feh --bg-scale ~/Pictures/wallpapers/img.png
+
+  	sudo vim /etc/xdg/picom.conf
+	
+ 	vim .xinitrc
 		~/.fehbg &
 		picom &
 		exec dwm
