@@ -1,4 +1,19 @@
-https://downloads.sourceforge.net/project/extundelete/extundelete/0.2.4/extundelete-0.2.4.tar.bz2?ts=gAAAAABm0-mLHnJx2ucrWRW88tLhV18IplIJbR7WSbv5eZDl4wWBVGHWoH-3-zQ8MNu13hG86EUgvw4wVqjyTeM4bfrJt6M3-g%3D%3D&use_mirror=razaoinfo&r=https%3A%2F%2Fextundelete.sourceforge.net%2F
+sudo umount /dev/sdb4
+
+sudo e2fsck -f /dev/sdb4
+
+sudo resize2fs /dev/sdb4 399G
+
+sudo parted /dev/sdb
+
+(parted) resizepart 4 400G
+(parted) quit
+
+sudo resize2fs /dev/sdb4
+
+sudo mount /dev/sdb4 /your/mount/point
+
+df -h /your/mount/point
 
 # Boot from a Live USB
 You should boot into a Linux live environment (such as an Arch Linux or Ubuntu Live USB) to ensure that none of the partitions are mounted during the cloning process. / 
