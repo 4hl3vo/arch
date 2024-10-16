@@ -36,64 +36,61 @@
 	mount /dev/sda1 /mnt/boot/efi
 
 ## PACOTES
-	pacstrap -i /mnt 
-					base 
-					base-devel 
-					linux 
-					linux-headers 
-					linux-lts 
-					linux-lts-headers 
-					linux-firmware
-					intel-ucode
-					vim 
-					git 
-					networkmanager 
-					dhcpcd 
-					wpa_supplicant 
-					wireless_tools 
-					netctl
-					discord 
-					firefox 
-					spotify-launcher 
-					code 
-					xorg-xrandr 
-					xorg-server 
-					xorg-xinit 
-					xorg-xinput
-					libx11 
-					libxinerama 
-					libxft 
-					webkit2gtk 
-					mesa 
-					feh 
-					picom 
-					nvidia 
-					nvidia-lts 
-					libglvnd 
-					nvidia-utils 
-					opencl-nvidia 
-					nvidia-settings 
-					grub 
-					efibootmgr 
-					dosfstools 
-					os-prober 
-					mtools      
-					alsa-utils 
-					pulseaudio
-					htop 
-					less 
-					ttf-fira-code 
-					unzip 
-					unrar
-					libreoffice-still 
-					lf 
-					scrot 
-					usbutils
-					qemu-desktop
-					virt-manager
-					qbittorrent
-					xclip
-					pavucontrol
+	pacstrap -i /mnt    base \ 
+					    base-devel \
+					    linux \
+					    linux-headers \
+					    linux-lts \
+					    linux-lts-headers \
+					    linux-firmware \
+					    intel-ucode \
+					    vim \
+					    git \
+					    networkmanager \
+					    dhcpcd \
+					    wpa_supplicant \
+					    wireless_tools \
+					    netctl \
+					    discord \
+					    firefox \
+					    spotify-launcher \
+					    code \
+					    xorg-xrandr \
+					    xorg-server \
+					    xorg-xinit \
+					    xorg-xinput \
+					    libx11 \
+					    libxinerama \
+					    libxft \
+					    webkit2gtk \
+					    mesa \
+					    feh \
+					    nvidia \
+					    libglvnd \
+					    nvidia-utils \
+					    opencl-nvidia \
+					    nvidia-settings \
+					    grub \
+					    efibootmgr \
+					    dosfstools \
+					    os-prober \
+					    mtools      \
+					    alsa-utils \
+					    pulseaudio \
+					    htop \
+					    less \
+					    ttf-fira-code \
+					    unzip \
+					    unrar \
+					    libreoffice-still \
+					    lf \
+					    scrot \
+					    usbutils \
+					    qemu-desktop \ 
+					    virt-manager \
+					    qbittorrent \
+					    xclip \
+					    pavucontrol \
 		
 	genfstab -U /mnt >> /mnt/etc/fstab
 		
@@ -154,26 +151,19 @@
 	sudo make clean install
 
 	cd ../st
-	patch -i alpha...
-	patch -i ligatures-alpha...
 	sudo make clean install
 
 	cd ../dmenu
-	patch -i dmenu-center..
 	sudo make clean install
 
 	cd ../slstatus
 	sudo make clean install
 
-	feh --bg-scale ~/Pictures/wallpapers/img.png
-
-	sudo vim /etc/xdg/picom.conf
-
 	vim .xinitrc
 		~/suckless/slstatus/slstatus &
 		~/.fehbg &
-		picom &
 		setxkb br &
+
 		exec dwm
 
 	vim .bash_profile
@@ -188,6 +178,3 @@
 ## NTP
 	timedatectl set-ntp true			
 	timedatectl status
-
-
-
