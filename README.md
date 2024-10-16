@@ -1,6 +1,5 @@
 # ARCH INSTALLATION
 
-
 ## LAYOUT TECLADO 
 	loadkeys br-abnt2
 
@@ -12,10 +11,6 @@
 	station wlan0 scan
 	station wlan0 get-networks
 	station wlan0 connect "NOME_DA_REDE"
-
-## NTP
-	timedatectl set-ntp true			
-	timedatectl status
 
 ## PARTICIONAR OS DISCOS 
 	lsblk
@@ -111,8 +106,6 @@
 	localectl set-timezone America/Sao_Paulo
 	localectl set-keymap --no-convert br-abnt2
 	hwclock --systohc
-	timedatectl set-ntp true
-	systemctl enable NetworkManager
 
 	vim /etc/locale.gen
 		#en_US.UTF-8
@@ -141,7 +134,6 @@
 	grub-install --target=x86_64-efi --bootloader-id='ARCH LINUX' --recheck
 	grub-mkconfig -o /boot/grub/grub.cfg
 	
-	mkinitcpio -p
 	systemctl enable NetworkManager.service
 	nvidia-xconfig
 	exit
@@ -192,4 +184,10 @@
 	alsactl restore
 	pulseaudio -k
 	pulseaudio --start
-	
+
+## NTP
+	timedatectl set-ntp true			
+	timedatectl status
+
+
+
