@@ -91,6 +91,10 @@
 					    qbittorrent \
 					    xclip \
 					    pavucontrol \
+                        noto-fonts-emoji \
+                        ttf-arphic-ukai \
+                        ttf-arphic-uming \
+                        adobe-source-han-sans-otc-fonts \
 		
 	genfstab -U /mnt >> /mnt/etc/fstab
 		
